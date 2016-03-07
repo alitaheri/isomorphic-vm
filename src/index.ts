@@ -115,17 +115,28 @@ class Script {
   }
 }
 
-export interface VM {
-  Script: typeof Script;
-  createContext: typeof createContext;
-  isContext: typeof isContext;
-  runInContext: typeof runInContext;
-  runInDebugContext: typeof runInDebugContext;
-  runInNewContext: typeof runInNewContext;
-  runInThisContext: typeof runInThisContext;
+export interface VMContext {
+  [name: string]: any;
 }
 
-export const shim = {
+export interface VMScript {
+  new (code: string);
+  runInContext(context: VMContext);
+  runInNewContext(context?: any);
+  runInThisContext();
+}
+
+export interface VM {
+  Script: VMScript;
+  createContext(context?: any): VMContext;
+  isContext(context: any): context is VMContext;
+  runInContext(code: string, context: VMContext): any;
+  runInDebugContext(code: string): any;
+  runInNewContext(code: string, context?: any): any;
+  runInThisContext(code: string): any;
+}
+
+export const shim: VM = <any>{
   Script,
   createContext,
   isContext,
