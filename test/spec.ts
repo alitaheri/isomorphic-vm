@@ -47,7 +47,7 @@ describe('native vm', () => {
 
 describe('shim vm', () => {
 
-  it('should export Script', () => {
+  it('should correctly shim Script', () => {
     const context = shim.createContext({ hello: null }) as any;
     const script = new shim.Script('hello = "world";');
     script.runInContext(context);
@@ -58,23 +58,23 @@ describe('shim vm', () => {
     expect(() => { new shim.Script(' = "world";').runInNewContext(); }).to.throw();
   });
 
-  it('should export createContext and isContext', () => {
+  it('should correctly shim createContext and isContext', () => {
     const context = shim.createContext({ hello: null }) as any;
     expect(shim.isContext(context)).to.be.true;
   });
 
-  it('should export runInContext and runInDebugContext', () => {
+  it('should correctly shim runInContext and runInDebugContext', () => {
     const context = shim.createContext({ hello: null }) as any;
     shim.runInContext('hello = "world";', context);
     expect(shim.runInDebugContext('1+1;')).to.be.equals(2);
     expect(context.hello).to.be.equals('world');
   });
 
-  it('should export runInNewContext', () => {
+  it('should correctly shim runInNewContext', () => {
     expect(shim.runInNewContext('hello = "world";')).to.be.equals('world');
   });
 
-  it('should export runInThisContext', () => {
+  it('should correctly shim runInThisContext', () => {
     (global as any).bar = 'a';
     shim.runInThisContext('bar = "baz";');
     expect((global as any).bar).to.be.equals('baz');
