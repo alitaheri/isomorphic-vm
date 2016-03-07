@@ -38,6 +38,7 @@ describe('native vm', () => {
   });
 
   it('should export runInThisContext', () => {
+    (global as any).foo = 'a';
     vm.runInThisContext('foo = "bar";');
     expect((global as any).foo).to.be.equals('bar');
   });
@@ -74,6 +75,7 @@ describe('shim vm', () => {
   });
 
   it('should export runInThisContext', () => {
+    (global as any).bar = 'a';
     shim.runInThisContext('bar = "baz";');
     expect((global as any).bar).to.be.equals('baz');
   });
